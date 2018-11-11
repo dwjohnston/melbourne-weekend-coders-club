@@ -6,6 +6,7 @@ import './app.styl';
 import { addTodo } from './actions/todos';
 import Helmet from 'react-helmet';
 
+import { Typography, Card, withStyles } from '@material-ui/core';
 
 import UniversalComponent from './components/UniversalComponent';
 /**
@@ -42,28 +43,48 @@ class App extends Component {
         this.props.addTodo(`Random Todo #${Math.round(Math.random() * 100)}`);
     };
 
+
+
     render() {
-        const { todos } = this.props;
-        console.log(todos);
+
+        const { classes, todos } = this.props;
         return (
+
             <div>
-                <Helmet>
-                    <title>App Component | React Universal</title>
-                </Helmet>
+                <div>
+                    <Helmet>
+                        <title>App Component | React Universal</title>
+                    </Helmet>
 
-                <h1>Welcome to React Fiber with Redux.</h1>
-                <ul>
-                    {todos.map(todo =>
-                        <li key={todo.id}>{todo.name}</li>
-                    )}
-                </ul>
-                <button onClick={this.handleAddTodoClick}>Add random todo</button>
+                </div >
 
-                <h1>Welcome to React Fiber.</h1>
-                <UniversalComponent name="getting-started" />
+
+                <Card elevation={24} className={classes.card}>
+                    <Typography color="primary" variant="h1"> Hello world! </Typography>
+                    <UniversalComponent name="getting-started" />
+
+                    <ul>
+                        {todos.map(todo =>
+                            <li key={todo.id}>{todo.name}</li>
+                        )}
+                    </ul>
+                    <button onClick={this.handleAddTodoClick}>Add random todo</button>
+
+                </Card>
+
             </div >
         );
     }
 }
 
-export default App; 
+const styles = theme => ({
+    root: {
+
+    },
+
+    card: {
+        padding: 20,
+    }
+})
+
+export default withStyles(styles)(App);

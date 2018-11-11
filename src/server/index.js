@@ -8,6 +8,17 @@ import { Provider } from 'react-redux';
 import configureStore from '../shared/core/configure-store';
 import createDocument from './document';
 import App from '../shared/App';
+import { SheetsRegistry } from 'jss';
+
+import JssProvider from 'react-jss/lib/JssProvider';
+import {
+    MuiThemeProvider,
+    createMuiTheme,
+    createGenerateClassName,
+} from '@material-ui/core/styles';
+
+import green from '@material-ui/core/colors/green';
+import red from '@material-ui/core/colors/red';
 
 /**
  * Provides the server side rendered app. In development environment, this method is called by
@@ -29,16 +40,40 @@ export default ({ clientStats }) => async (req, res) => {
     };
     const store = configureStore(preloadedState);
 
+
+    const sheetsRegistry = new SheetsRegistry();
+
+    // Create a sheetsManager instance.
+    const sheetsManager = new Map();
+
+    // Create a theme instance.
+    const theme = createMuiTheme({
+        palette: {
+            primary: green,
+            accent: red,
+            type: 'light',
+        },
+    });
+
+    const generateClassName = createGenerateClassName();
+
+
     const app = (
         <Provider store={store}>
-            <App />
+            <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
+                <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
+                    <App />
+                </MuiThemeProvider>
+            </JssProvider>
         </Provider>
+
     );
 
     const appString = ReactDOM.renderToString(app);
     const helmet = Helmet.renderStatic();
     const chunkNames = flushChunkNames();
     const { js, styles, cssHash } = flushChunks(clientStats, { chunkNames });
+    const jss = sheetsRegistry.toString();
     const document = createDocument({
         appString,
         js,
@@ -46,6 +81,8 @@ export default ({ clientStats }) => async (req, res) => {
         cssHash,
         preloadedState: JSON.stringify(preloadedState),
         helmet,
+        jss,
+
     });
 
     res.set('Content-Type', 'text/html').end(document);
