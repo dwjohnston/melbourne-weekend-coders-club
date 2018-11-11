@@ -19,11 +19,13 @@ delete window.__PRELOADED_STATE__;
  */
 const render = (Component) => {
     hydrate(
-        <Provider store={store}>
-            <Router>
+        <Router>
+
+            <Provider store={store}>
                 <Component />
-            </Router>
-        </Provider>,
+            </Provider>
+        </Router>
+        ,
         document.getElementById('react-root')
     );
 };

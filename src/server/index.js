@@ -85,7 +85,7 @@ export default ({ clientStats }) => async (req, res) => {
         appString,
         js,
         styles,
-        cssHash,
+        //cssHash,
         preloadedState: JSON.stringify(preloadedState),
         helmet,
         jss,

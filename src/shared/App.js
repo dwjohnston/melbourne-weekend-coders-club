@@ -50,6 +50,9 @@ class App extends Component {
         this.props.addTodo(`Random Todo #${Math.round(Math.random() * 100)}`);
     };
 
+    componentDidUpdate() {
+        console.log("did update");
+    }
 
 
     render() {
