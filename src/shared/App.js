@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 import './app.styl';
 
 import { addTodo } from './actions/todos';
+import Helmet from 'react-helmet';
 
+
+import UniversalComponent from './components/UniversalComponent';
 /**
  * This method combines the state of the reducers with the props passed to the component.
  * A component that connects to the store is commonly referred to as 'container'.
@@ -17,6 +20,7 @@ const mapStateToProps = ({ todos }) => ({
     todos
 });
 
+
 /**
  * The `App` component is the entry point for the react app.
  * It is rendered on the client as well as on the server.
@@ -26,7 +30,7 @@ const mapStateToProps = ({ todos }) => ({
 @connect(mapStateToProps, {
     addTodo
 })
-export default class App extends Component {
+class App extends Component {
 
     handleAddTodoClick = () => {
         this.props.addTodo(`Random Todo #${Math.round(Math.random() * 100)}`);
@@ -44,8 +48,15 @@ export default class App extends Component {
                     )}
                 </ul>
                 <button onClick={this.handleAddTodoClick}>Add random todo</button>
-            </div>
+                <Helmet>
+                    <title>App Component | React Universal</title>
+                </Helmet>
+
+                <h1>Welcome to React Fiber.</h1>
+                <UniversalComponent name="getting-started" />
+            </div >
         );
     }
-
 }
+
+export default App; 

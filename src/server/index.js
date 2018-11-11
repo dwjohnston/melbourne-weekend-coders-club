@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/server';
+import Helmet from 'react-helmet';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { Provider } from 'react-redux';
 
 import configureStore from '../shared/core/configure-store';
+import createDocument from './document';
 import App from '../shared/App';
 
 /**
@@ -29,19 +31,21 @@ export default ({ clientStats }) => async (req, res) => {
 
     const app = (
         <Provider store={store}>
-            <App/>
+            <App />
         </Provider>
     );
 
     const appString = ReactDOM.renderToString(app);
+    const helmet = Helmet.renderStatic();
     const chunkNames = flushChunkNames();
-    const { js, styles, cssHash } = flushChunks(clientStats, { chunkNames });
-
-    res.render('index', {
+    const { js, styles } = flushChunks(clientStats, { chunkNames });
+    const document = createDocument({
         appString,
         js,
         styles,
-        cssHash,
-        preloadedState: JSON.stringify(preloadedState)
+        preloadedState: JSON.stringify(preloadedState),
+        helmet,
     });
+
+    res.set('Content-Type', 'text/html').end(document);
 };
