@@ -1,9 +1,25 @@
 import React, { Component } from 'react';
-import Helmet from 'react-helmet';
+import { connect } from 'react-redux';
 
 import './app.styl';
 
+import { addTodo } from './actions/todos';
+import Helmet from 'react-helmet';
+
+
 import UniversalComponent from './components/UniversalComponent';
+/**
+ * This method combines the state of the reducers with the props passed to the component.
+ * A component that connects to the store is commonly referred to as 'container'.
+ * To connect to the store, the '@connect' decorator is used.
+ *
+ * @param todos
+ * @returns {{todos: *}}
+ */
+const mapStateToProps = ({ todos }) => ({
+    todos
+});
+
 
 /**
  * The `App` component is the entry point for the react app.
@@ -11,17 +27,43 @@ import UniversalComponent from './components/UniversalComponent';
  *
  * You can start developing your react app here.
  */
-export default class App extends Component {
+@connect(mapStateToProps, {
+    addTodo
+})
+class App extends Component {
+
+    constructor(props) {
+        super();
+
+        console.log(props);
+    }
+
+    handleAddTodoClick = () => {
+        this.props.addTodo(`Random Todo #${Math.round(Math.random() * 100)}`);
+    };
+
     render() {
+        const { todos } = this.props;
+        console.log(todos);
         return (
             <div>
                 <Helmet>
                     <title>App Component | React Universal</title>
                 </Helmet>
 
+                <h1>Welcome to React Fiber with Redux.</h1>
+                <ul>
+                    {todos.map(todo =>
+                        <li key={todo.id}>{todo.name}</li>
+                    )}
+                </ul>
+                <button onClick={this.handleAddTodoClick}>Add random todo</button>
+
                 <h1>Welcome to React Fiber.</h1>
                 <UniversalComponent name="getting-started" />
-            </div>
+            </div >
         );
     }
 }
+
+export default App; 
