@@ -34,10 +34,10 @@ const mapStateToProps = ({ todos }) => ({
  *
  * This is also the entry point for react router, declare any
  * of your top-level routes here.
- */
-@connect(mapStateToProps, {
-    addTodo
-})
+//  */
+// @connect(mapStateToProps, {
+//     addTodo
+// })
 class App extends Component {
 
     constructor(props) {
@@ -73,11 +73,11 @@ class App extends Component {
                     <Typography color="primary" variant="h1"> Hello world! </Typography>
                     <UniversalComponent name="getting-started" />
 
-                    <ul>
+                    {/* <ul>
                         {todos.map(todo =>
                             <li key={todo.id}>{todo.name}</li>
                         )}
-                    </ul>
+                    </ul> */}
                     <button onClick={this.handleAddTodoClick}>Add random todo</button>
                     <Switch>
                         <Route exact path='/' component={Home} />
@@ -88,6 +88,12 @@ class App extends Component {
 
 
             </div >
+
+            // <Switch>
+            //     <Route exact path='/' component={Home} />
+            //     <Route path='/about' component={About} />
+            //     <Route component={NotFound} />
+            // </Switch>
 
         );
     }

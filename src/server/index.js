@@ -62,17 +62,26 @@ export default ({ clientStats }) => async (req, res) => {
 
 
     const app = (
-        <Provider store={store}>
-            <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
-                <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
-                    <StaticRouter
-                        location={req.url}
-                        context={context}>
+        <StaticRouter
+            location={req.url}
+            context={context}>
+            <Provider store={store}>
+                <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
+                    <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
+
                         <App />
-                    </StaticRouter>
-                </MuiThemeProvider>
-            </JssProvider>
-        </Provider>);
+
+                    </MuiThemeProvider>
+                </JssProvider>
+            </Provider>
+        </StaticRouter>);
+
+
+    // const app = (<StaticRouter
+    //     location={req.url}
+    //     context={context}>
+    //     <App />
+    // </StaticRouter>);
 
 
 

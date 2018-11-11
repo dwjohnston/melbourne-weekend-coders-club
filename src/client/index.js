@@ -20,7 +20,6 @@ delete window.__PRELOADED_STATE__;
 const render = (Component) => {
     hydrate(
         <Router>
-
             <Provider store={store}>
                 <Component />
             </Provider>
