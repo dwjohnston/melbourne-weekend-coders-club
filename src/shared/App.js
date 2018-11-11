@@ -32,6 +32,12 @@ const mapStateToProps = ({ todos }) => ({
 })
 class App extends Component {
 
+    constructor(props) {
+        super();
+
+        console.log(props);
+    }
+
     handleAddTodoClick = () => {
         this.props.addTodo(`Random Todo #${Math.round(Math.random() * 100)}`);
     };
@@ -41,6 +47,11 @@ class App extends Component {
         console.log(todos);
         return (
             <div>
+
+                <Helmet>
+                    <title>App Component | React Universal</title>
+                </Helmet>
+
                 <h1>Welcome to React Fiber with Redux.</h1>
                 <ul>
                     {todos.map(todo =>
@@ -48,9 +59,6 @@ class App extends Component {
                     )}
                 </ul>
                 <button onClick={this.handleAddTodoClick}>Add random todo</button>
-                <Helmet>
-                    <title>App Component | React Universal</title>
-                </Helmet>
 
                 <h1>Welcome to React Fiber.</h1>
                 <UniversalComponent name="getting-started" />

@@ -4,9 +4,9 @@ import { Provider } from 'react-redux';
 
 import App from '../shared/App';
 import configureStore from '../shared/core/configure-store';
-
-const store = configureStore(window.__PRELOADED_STATE__);
-delete window.__PRELOADED_STATE__;
+console.log(window.__PRELOADED_STATE__);
+const store = configureStore(window.__PRELOADED_STATE__, true);
+//delete window.__PRELOADED_STATE__;
 
 /**
  * Renders a react component into the #react-root div container.

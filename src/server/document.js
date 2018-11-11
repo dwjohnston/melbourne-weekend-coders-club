@@ -3,6 +3,7 @@ export default ({
     js,
     styles,
     helmet,
+    preloadedState,
 }) => `
     <!doctype html>
     <html>
@@ -12,13 +13,15 @@ export default ({
         <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
         
         ${styles}
-        
         ${helmet.title.toString()}
     </head>
     <body>
-    
+    hello world
+
       <div id="react-root">${appString}</div>
-      
+      <script>
+      window.__PRELOADED_STATE__ = ${preloadedState}
+    </script>
       ${js}
       
     </body>
