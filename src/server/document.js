@@ -3,6 +3,7 @@ export default ({
     js,
     styles,
     helmet,
+    jss,
 }) => `
     <!doctype html>
     <html>
@@ -16,11 +17,13 @@ export default ({
         ${helmet.title.toString()}
     </head>
     <body>
+
     
       <div id="react-root">${appString}</div>
       
       ${js}
-      
+      <style id="jss-server-side">${jss}</style>
+
     </body>
     </html>
 `;
