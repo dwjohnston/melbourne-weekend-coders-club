@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { Switch, Route } from 'react-router-dom';
+
+import Home from './components/Home';
+import About from './components/About';
+import NotFound from './components/NotFound';
+
 import './app.styl';
 
 import { addTodo } from './actions/todos';
@@ -26,7 +32,8 @@ const mapStateToProps = ({ todos }) => ({
  * The `App` component is the entry point for the react app.
  * It is rendered on the client as well as on the server.
  *
- * You can start developing your react app here.
+ * This is also the entry point for react router, declare any
+ * of your top-level routes here.
  */
 @connect(mapStateToProps, {
     addTodo
@@ -69,10 +76,16 @@ class App extends Component {
                         )}
                     </ul>
                     <button onClick={this.handleAddTodoClick}>Add random todo</button>
-
+                    <Switch>
+                        <Route exact path='/' component={Home} />
+                        <Route path='/about' component={About} />
+                        <Route component={NotFound} />
+                    </Switch>
                 </Card>
 
+
             </div >
+
         );
     }
 }

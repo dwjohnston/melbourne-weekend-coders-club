@@ -7,6 +7,8 @@ import { Provider } from 'react-redux';
 
 import configureStore from '../shared/core/configure-store';
 import createDocument from './document';
+import { StaticRouter } from 'react-router';
+
 import App from '../shared/App';
 import { SheetsRegistry } from 'jss';
 
@@ -56,18 +58,23 @@ export default ({ clientStats }) => async (req, res) => {
     });
 
     const generateClassName = createGenerateClassName();
+    const context = {};
 
 
     const app = (
         <Provider store={store}>
             <JssProvider registry={sheetsRegistry} generateClassName={generateClassName}>
                 <MuiThemeProvider theme={theme} sheetsManager={sheetsManager}>
-                    <App />
+                    <StaticRouter
+                        location={req.url}
+                        context={context}>
+                        <App />
+                    </StaticRouter>
                 </MuiThemeProvider>
             </JssProvider>
-        </Provider>
+        </Provider>);
 
-    );
+
 
     const appString = ReactDOM.renderToString(app);
     const helmet = Helmet.renderStatic();
@@ -85,5 +92,17 @@ export default ({ clientStats }) => async (req, res) => {
 
     });
 
-    res.set('Content-Type', 'text/html').end(document);
+    /*
+     * See https://reacttraining.com/react-router/web/guides/server-rendering for details
+     * on this configuration.
+     */
+    if (context.url) {
+        res.writeHead(301, {
+            Location: context.url
+        });
+        res.end();
+    } else {
+
+        res.set('Content-Type', 'text/html').end(document);
+    }
 };
